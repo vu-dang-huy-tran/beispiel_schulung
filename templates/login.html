@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- MUI CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mui/material@5.13.0/dist/mui-material.min.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
+            width: 100%;
+            max-width: 450px;
+            padding: 24px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .login-header h1 {
+            color: rgba(0, 0, 0, 0.87);
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        
+        .login-header p {
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 1rem;
+        }
+        
+        .mui-textfield {
+            position: relative;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+        
+        .mui-textfield label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 1rem;
+            color: rgba(0, 0, 0, 0.6);
+            padding: 14px 16px;
+            pointer-events: none;
+            transition: 0.2s ease all;
+        }
+        
+        .mui-textfield input {
+            font-size: 1rem;
+            padding: 14px 16px;
+            display: block;
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.23);
+            border-radius: 4px;
+            background: none;
+            color: rgba(0, 0, 0, 0.87);
+            box-sizing: border-box;
+        }
+        
+        .mui-textfield input:focus {
+            outline: none;
+            border: 2px solid #1976d2;
+            padding: 13px 15px;
+        }
+        
+        .mui-textfield input:focus + label,
+        .mui-textfield input:not(:placeholder-shown) + label {
+            font-size: 0.75rem;
+            top: -6px;
+            left: 8px;
+            background-color: white;
+            padding: 0 8px;
+        }
+        
+        .mui-remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 0.875rem;
+        }
+        
+        .mui-checkbox {
+            display: flex;
+            align-items: center;
+        }
+        
+        .mui-checkbox input {
+            margin-right: 8px;
+        }
+        
+        .mui-link {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        
+        .mui-link:hover {
+            text-decoration: underline;
+        }
+        
+        .mui-button {
+            background-color: #1976d2;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.02857em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+            transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            height: 36px;
+        }
+        
+        .mui-button:hover {
+            background-color: #1565c0;
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.875rem;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        /* MUI Divider */
+        .mui-divider {
+            height: 1px;
+            margin: 24px 0;
+            background-color: rgba(0, 0, 0, 0.12);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Welcome Back</h1>
+            <p>Please enter your credentials to login</p>
+        </div>
+        
+        {% if error %}
+        <div style="background-color: #ffebee; color: #d32f2f; padding: 12px; border-radius: 4px; margin-bottom: 16px; font-size: 0.875rem;">
+            <span class="material-icons" style="font-size: 16px; vertical-align: middle; margin-right: 8px;">error_outline</span>
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <form action="/login" method="post">
+            <div class="mui-textfield">
+                <input type="text" id="username" name="username" placeholder=" " required>
+                <label for="username">Username or Email</label>
+            </div>
+            
+            <div class="mui-textfield">
+                <input type="password" id="password" name="password" placeholder=" " required>
+                <label for="password">Password</label>
+            </div>
+            
+            <div class="mui-remember-forgot">
+                <div class="mui-checkbox">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <div>
+                    <a href="/forgot-password" class="mui-link">Forgot password?</a>
+                </div>
+            </div>
+            
+            <button type="submit" class="mui-button">Login</button>
+            
+            <div class="mui-divider"></div>
+            
+            <div class="signup-link">
+                Don't have an account? <a href="/signup" class="mui-link">Sign up</a>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Optional: Add MUI JavaScript for advanced components -->
+    <script src="https://cdn.jsdelivr.net/npm/@mui/material@5.13.0/dist/mui-material.min.js"></script>
+    <script>
+        // Add any JS functionality here
+    </script>
+</body>
+</html>

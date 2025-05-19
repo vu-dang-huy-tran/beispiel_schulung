@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <!-- MUI CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mui/material@5.13.0/dist/mui-material.min.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .header h1 {
+            color: rgba(0, 0, 0, 0.87);
+            font-weight: 500;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .mui-button {
+            background-color: #1976d2;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.02857em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+            transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .mui-button:hover {
+            background-color: #1565c0;
+        }
+        
+        .mui-button.secondary {
+            background-color: #6c757d;
+        }
+        
+        .mui-button.secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .mui-button .material-icons {
+            font-size: 18px;
+            margin-right: 8px;
+        }
+        
+        .mui-textfield {
+            position: relative;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+        
+        .mui-textfield label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.875rem;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .mui-textfield input,
+        .mui-textfield select {
+            font-size: 1rem;
+            padding: 12px 16px;
+            display: block;
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.23);
+            border-radius: 4px;
+            background: none;
+            color: rgba(0, 0, 0, 0.87);
+            box-sizing: border-box;
+        }
+        
+        .mui-textfield input:focus,
+        .mui-textfield select:focus {
+            outline: none;
+            border: 2px solid #1976d2;
+            padding: 11px 15px;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .flash-message {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .flash-message .material-icons {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+        
+        .flash-message.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .flash-message.error {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .password-note {
+            font-size: 0.75rem;
+            color: rgba(0, 0, 0, 0.6);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Edit User</h1>
+            <div>
+                <a href="{{ url_for('list_users') }}" class="mui-button secondary">
+                    <span class="material-icons">arrow_back</span>
+                    Back to Users
+                </a>
+            </div>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        <span class="material-icons">{% if category == 'success' %}check_circle{% else %}error_outline{% endif %}</span>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="card">
+            <form action="{{ url_for('edit_user', user_id=user.id) }}" method="post">
+                <div class="mui-textfield">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                </div>
+                
+                <div class="mui-textfield">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" value="{{ user.name }}" required>
+                </div>
+                
+                <div class="mui-textfield">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="user" {% if user.role == 'user' %}selected{% endif %}>User</option>
+                        <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                    </select>
+                </div>
+                
+                <div class="mui-textfield">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Leave blank to keep current password">
+                    <p class="password-note">Only fill this if you want to change the user's password.</p>
+                </div>
+                
+                <div class="form-actions">
+                    <a href="{{ url_for('list_users') }}" class="mui-button secondary">Cancel</a>
+                    <button type="submit" class="mui-button">
+                        <span class="material-icons">save</span>
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
