@@ -12,13 +12,6 @@ app.secret_key = os.urandom(24)  # Set a secret key for session encryption
 # Database setup
 DATABASE = 'users.db'
 
-def huy_ist_cool():
-    return 1
-
-def hallo():
-    return 1
-
-
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
