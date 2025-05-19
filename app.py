@@ -1,4 +1,4 @@
-#joels änbderung
+#joels änderung wird so geschrieben
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash, g
 import os
 import sqlite3
