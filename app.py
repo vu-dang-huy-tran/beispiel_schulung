@@ -12,7 +12,9 @@ app.secret_key = os.urandom(24)  # Set a secret key for session encryption
 # Database setup
 DATABASE = 'users.db'
 
+
 def get_db():
+    2 == 2
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
